@@ -6,7 +6,7 @@
 
 ### Install
 
-`npm install grunt-filenames --save-dev`
+`npm install grunt-blank --save-dev`
 
 {%= _.doc("./docs/use.md") %}
 

@@ -1,61 +1,44 @@
-# grunt-filenames v0.1.2
+# grunt-blank v0.1.0
 
-> Validates filenames using given RegExp
+> Finds empty, blank or small files
 
-[![NPM][grunt-filenames-icon] ][grunt-filenames-url]
+[![NPM][grunt-blank-icon] ][grunt-blank-url]
 
-[![Build status][grunt-filenames-ci-image] ][grunt-filenames-ci-url]
-[![dependencies][grunt-filenames-dependencies-image] ][grunt-filenames-dependencies-url]
-[![devdependencies][grunt-filenames-devdependencies-image] ][grunt-filenames-devdependencies-url]
+[![Build status][grunt-blank-ci-image] ][grunt-blank-ci-url]
+[![dependencies][grunt-blank-dependencies-image] ][grunt-blank-dependencies-url]
+[![devdependencies][grunt-blank-devdependencies-image] ][grunt-blank-devdependencies-url]
 
-[grunt-filenames-icon]: https://nodei.co/npm/grunt-filenames.png?downloads=true
-[grunt-filenames-url]: https://npmjs.org/package/grunt-filenames
-[grunt-filenames-ci-image]: https://travis-ci.org/bahmutov/grunt-filenames.png?branch=master
-[grunt-filenames-ci-url]: https://travis-ci.org/bahmutov/grunt-filenames
-[grunt-filenames-dependencies-image]: https://david-dm.org/bahmutov/grunt-filenames.png
-[grunt-filenames-dependencies-url]: https://david-dm.org/bahmutov/grunt-filenames
-[grunt-filenames-devdependencies-image]: https://david-dm.org/bahmutov/grunt-filenames/dev-status.png
-[grunt-filenames-devdependencies-url]: https://david-dm.org/bahmutov/grunt-filenames#info=devDependencies
+[grunt-blank-icon]: https://nodei.co/npm/grunt-blank.png?downloads=true
+[grunt-blank-url]: https://npmjs.org/package/grunt-blank
+[grunt-blank-ci-image]: https://travis-ci.org/bahmutov/grunt-blank.png?branch=master
+[grunt-blank-ci-url]: https://travis-ci.org/bahmutov/grunt-blank
+[grunt-blank-dependencies-image]: https://david-dm.org/bahmutov/grunt-blank.png
+[grunt-blank-dependencies-url]: https://david-dm.org/bahmutov/grunt-blank
+[grunt-blank-devdependencies-image]: https://david-dm.org/bahmutov/grunt-blank/dev-status.png
+[grunt-blank-devdependencies-url]: https://david-dm.org/bahmutov/grunt-blank#info=devDependencies
 
 
 
 ### Install
 
-`npm install grunt-filenames --save-dev`
+`npm install grunt-blank --save-dev`
 
 ### Example
 
-Checks if all JavaScript filenames are lower case.
+Checks if all JavaScript files are non-empty.
 
 ```js
 // Gruntfile.js
 grunt.initConfig({
-  filenames: {
+  blank: {
     options: {
-      valid: /^[a-z]+\.js$/
+      minBytes: 2
     },
-    src: ['tasks/*.js']
+    src: ['src/**/*.js']
   }
 });
-grunt.loadNpmTasks('grunt-filenames');
-grunt.registerTask('default', ['filenames']);
-```
-
-**note** grunt-filenames checks base name only (not folder names)
-
-### Extras
-
-Instead of RegExp, you can specify
-
-* `valid: "dashes"` - allow lower-case-with-dashes filenames
-* `valid: "camelCase"` - allow camelCased filenames
-
-A function, for example
-
-```js
-valid: function (filename) {
-  return filename.length > 10;
-}
+grunt.loadNpmTasks('grunt-blank');
+grunt.registerTask('default', ['blank']);
 ```
 
 
@@ -73,7 +56,7 @@ License: MIT - do anything with the code, but don't blame me if it does not work
 Spread the word: tweet, star on github, etc.
 
 Support: if you find any problems with this module, email / tweet /
-[open issue](https://github.com/bahmutov/grunt-filenames/issues) on Github
+[open issue](https://github.com/bahmutov/grunt-blank/issues) on Github
 
 
 

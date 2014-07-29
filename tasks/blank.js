@@ -1,6 +1,6 @@
 /*
- * grunt-filenames
- * https://github.com/bahmutov/grunt-filenames
+ * grunt-blank
+ * https://github.com/bahmutov/grunt-blank
  *
  * Copyright (c) 2014 Gleb Bahmutov
  * Licensed under the MIT license.
@@ -8,44 +8,44 @@
 
 'use strict';
 
-var basename = require('path').basename;
+var taskName = 'blank';
+var taskInfo = 'Finds empty, blank or small files';
+
+var fs = require('fs');
+var check = require('check-types');
+require('lazy-ass');
 
 module.exports = function(grunt) {
-  var dashed = /^[a-z\-]+\./;
-  var camelCase = /^[a-z][a-zA-Z]*\./;
 
-  grunt.registerMultiTask('filenames', 'Validates source filenames', function () {
-    var options = this.options({
-      valid: camelCase
+  function isLargerThan(minBytes, filename) {
+    lazyAss(check.positiveNumber(minBytes), 'invalid min bytes', minBytes);
+    lazyAss(check.unemptyString(filename), 'expected filename', filename);
+
+    var stat = fs.statSync(filename);
+    grunt.verbose.writeln(filename, stat.size);
+    return stat.size > minBytes;
+  }
+
+  function findBlank(self) {
+    var options = self.options({
+      minBytes: 2
     });
-    if (options.valid === 'dashed' ||
-      options.valid === 'dashes') {
-      options.valid = dashed;
-    } else if (options.valid === 'camelCase') {
-      options.valid = camelCase;
-    }
+    lazyAss(check.positiveNumber(options.minBytes),
+      'invalid minBytes in options', options);
 
-    var check;
-    if (typeof options.valid === 'function') {
-      grunt.verbose.writeln('Validating filenames using function\n' + options.valid.toString());
-      check = options.valid;
-    } else {
-      grunt.verbose.writeln('Validating filenames using RegExp', options.valid);
-      check = function (filename) {
-        return options.valid.test(filename);
-      };
-    }
+    var largenThanMinBytes = isLargerThan.bind(null, options.minBytes);
 
-    var allValid = this.files.every(function (file) {
-      return file.src.every(function (filename) {
-        grunt.verbose.writeln('testing filename', filename);
-        var valid = check(basename(filename));
-        if (!valid) {
-          grunt.log.error('file', filename, 'does not pass check', options.valid);
-        }
-        return valid;
-      });
+    var allLarger = self.files.every(function (fileInputs) {
+      return fileInputs.src.every(largenThanMinBytes);
     });
-    return allValid;
+
+    if (!allLarger) {
+      grunt.log.error('Some files are smaller than', options.minBytes, 'bytes');
+    }
+    return allLarger;
+  }
+
+  grunt.registerMultiTask(taskName, taskInfo, function () {
+    return findBlank(this);
   });
 };

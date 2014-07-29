@@ -1,34 +1,17 @@
 ## Example
 
-Checks if all JavaScript filenames are lower case.
+Checks if all JavaScript files are non-empty.
 
 ```js
 // Gruntfile.js
 grunt.initConfig({
-  filenames: {
+  blank: {
     options: {
-      valid: /^[a-z]+\.js$/
+      minBytes: 2
     },
-    src: ['tasks/*.js']
+    src: ['src/**/*.js']
   }
 });
-grunt.loadNpmTasks('grunt-filenames');
-grunt.registerTask('default', ['filenames']);
-```
-
-**note** {%= name %} checks base name only (not folder names)
-
-## Extras
-
-Instead of RegExp, you can specify
-
-* `valid: "dashes"` - allow lower-case-with-dashes filenames
-* `valid: "camelCase"` - allow camelCased filenames
-
-A function, for example
-
-```js
-valid: function (filename) {
-  return filename.length > 10;
-}
+grunt.loadNpmTasks('grunt-blank');
+grunt.registerTask('default', ['blank']);
 ```

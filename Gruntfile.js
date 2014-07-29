@@ -18,8 +18,7 @@ module.exports = function(grunt) {
         'tasks/*.js'
       ],
       options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
+        jshintrc: '.jshintrc'
       }
     },
 
@@ -27,7 +26,8 @@ module.exports = function(grunt) {
       options: {
         minBytes: 2
       },
-      src: ['tasks/*.js']
+      src: ['Gruntfile.js', 'tasks/*.js'],
+      invalid: ['Gruntfile.js', 'tasks/*.js', 'test/*.js']
     },
 
     readme: {
@@ -44,5 +44,5 @@ module.exports = function(grunt) {
   plugins.forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('default',
-    ['jshint', 'jshint-solid', 'nice-package', 'blank', 'readme']);
+    ['jshint', 'jshint-solid', 'nice-package', 'blank:src', 'readme']);
 };
