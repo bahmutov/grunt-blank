@@ -1,4 +1,4 @@
-# grunt-blank v0.1.0
+# grunt-blank v0.1.1
 
 > Finds empty, blank or small files
 
